@@ -79,9 +79,31 @@ const value = (s: string) => (/^[\d,]+$/.test(s) ? `<span class="digits">${s}</s
   description="ابحث في نصوص دروس الشيخ أبي جعفر عبد الله بن فهد الخليفي المفرَّغة آليًا."
   schema={[siteSchema]}
 >
-  <section class="pt-10 sm:pt-16">
-    <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">كشّاف أبي جعفر</h1>
-    <p class="mt-3 text-muted">ابحث في دروس الشيخ أبي جعفر عبد الله بن فهد الخليفي</p>
+  <section class="home-hero">
+    <div class="hero-copy">
+      <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">كشّاف أبي جعفر</h1>
+      <p class="mt-3 text-muted">ابحث في دروس الشيخ أبي جعفر عبد الله بن فهد الخليفي</p>
+    </div>
+    <svg class="hero-art" viewBox="0 0 240 180" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <circle cx="120" cy="90" r="72" fill="var(--accent-soft)" stroke="none" />
+      <circle cx="120" cy="90" r="83" stroke="var(--border)" stroke-dasharray="3 9" />
+      <g class="book">
+        <path d="M43 65Q80 53 120 73Q160 53 197 65V139Q159 127 120 147Q81 127 43 139Z" fill="var(--surface)" />
+        <path pathLength="1" d="M51 58Q86 50 120 69Q154 50 189 58V130Q153 122 120 141Q87 122 51 130ZM120 69V141" fill="var(--bg)" />
+        <path class="page-lines" pathLength="1" d="M65 76Q86 74 106 84M65 89Q86 87 106 97M65 102Q86 100 99 106M134 84Q154 74 175 76M134 97Q154 87 175 89M141 106Q158 101 175 102" stroke-width="1.5" />
+        <path d="M159 57V80L167 74L175 77V55" fill="var(--accent-soft)" stroke-width="1.5" />
+      </g>
+      <g class="search-lens">
+        <circle cx="167" cy="112" r="24" fill="var(--accent-soft)" fill-opacity="0.9" stroke-width="3" />
+        <path d="M185 130L203 148" stroke-width="7" />
+        <path d="M155 108Q158 100 166 100" stroke="var(--surface)" stroke-width="3" />
+      </g>
+      <g class="spark" stroke-width="1.5">
+        <path d="M69 30V42M63 36H75M207 83V93M202 88H212" />
+        <circle cx="37" cy="108" r="3" />
+        <circle cx="170" cy="28" r="2" fill="currentColor" />
+      </g>
+    </svg>
   </section>
 
   <Search client:load playlists={options} />
@@ -96,7 +118,7 @@ const value = (s: string) => (/^[\d,]+$/.test(s) ? `<span class="digits">${s}</s
           // The two cards that have somewhere to go become links; the rest stay plain.
           const Cell = c.href ? 'a' : 'div'
           return (
-            <li class="card">
+            <li class="card stat-card">
               <Cell
                 href={c.href}
                 class:list={[
@@ -132,3 +154,83 @@ const value = (s: string) => (/^[\d,]+$/.test(s) ? `<span class="digits">${s}</s
     <Charts />
   </section>
 </Base>
+
+<style>
+  .home-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 2rem;
+  }
+  .hero-copy { flex: 1; }
+  .hero-art {
+    width: 11rem;
+    height: auto;
+    flex-shrink: 0;
+    color: var(--accent);
+  }
+  .stat-card svg { color: var(--accent); }
+  @media (max-width: 479px) {
+    .home-hero { gap: 0.5rem; }
+    .hero-art { width: 5.5rem; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-copy { animation: arrive 700ms ease-out both; }
+    .book { animation: arrive 900ms ease-out both; }
+    .page-lines {
+      stroke-dasharray: 1;
+      animation: write 1400ms 350ms ease-out both;
+    }
+    .search-lens { animation: discover 2600ms 250ms ease-in-out both; }
+    .spark {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: glimmer 1800ms 600ms ease-in-out both;
+    }
+    .stat-card {
+      animation: arrive 600ms ease-out backwards;
+      transition: transform 200ms ease, border-color 200ms ease;
+    }
+    .stat-card:nth-child(2) { animation-delay: 60ms; }
+    .stat-card:nth-child(3) { animation-delay: 120ms; }
+    .stat-card:nth-child(4) { animation-delay: 180ms; }
+    .stat-card:nth-child(5) { animation-delay: 240ms; }
+    .stat-card:nth-child(6) { animation-delay: 300ms; }
+    .stat-card:focus-within {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+    }
+    .stat-card:focus-within svg { animation: icon-nod 450ms ease; }
+    @media (hover: hover) {
+      .stat-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+      .stat-card:hover svg { animation: icon-nod 450ms ease; }
+      .home-hero:hover .search-lens { animation: discover-again 1800ms ease-in-out; }
+    }
+  }
+  @keyframes arrive {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes write {
+    from { stroke-dashoffset: 1; }
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes discover {
+    0% { opacity: 0; transform: translate(-45px, -20px); }
+    25% { opacity: 1; }
+    55% { transform: translate(-55px, -8px); }
+    100% { opacity: 1; transform: translate(0, 0); }
+  }
+  @keyframes discover-again {
+    50% { transform: translate(-55px, -8px); }
+  }
+  @keyframes glimmer {
+    0% { opacity: 0; transform: scale(0.8); }
+    55% { opacity: 1; transform: scale(1.08); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes icon-nod {
+    50% { transform: rotate(-12deg) scale(1.15); }
+  }
+</style>
