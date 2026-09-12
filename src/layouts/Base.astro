@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css'
 import { Font } from 'astro:assets'
+import WelcomeIntro from '../components/WelcomeIntro.astro'
 import { SITE, SHEIKH, HOME_TITLE } from '../lib/seo'
 
 interface Props {
@@ -111,6 +112,7 @@ const jsonLd = (data: Record<string, unknown>) => JSON.stringify(data).replaceAl
   </head>
 
   <body class="bg-bg text-fg antialiased">
+    <WelcomeIntro />
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:start-3 focus:z-50 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-fg"
@@ -128,7 +130,7 @@ const jsonLd = (data: Record<string, unknown>) => JSON.stringify(data).replaceAl
           href="/"
           class="-ms-2 flex h-11 min-w-0 items-center gap-2 rounded-lg px-2 text-base font-semibold tracking-tight"
         >
-          <img src="/favicon.png" width="32" height="32" alt="" class="size-8 shrink-0 rounded-full" />
+          <img src="/icon-512.svg" width="32" height="32" alt="" class="size-8 shrink-0 rounded-full" />
           <span class="sr-only min-[480px]:not-sr-only min-[480px]:truncate">{SITE}</span>
         </a>
 

@@ -1,0 +1,198 @@
+---
+import bootstrap from '../lib/welcome-intro.js?raw'
+import logo from '../../public/icon-512.svg?raw'
+import { SITE } from '../lib/seo'
+
+---
+
+<dialog id="welcome-intro" aria-labelledby="welcome-title">
+  <div class="intro-frame" aria-hidden="true"></div>
+  <span class="intro-top" aria-hidden="true">بين يدي العلم</span>
+  <div class="intro-center">
+    <div class="intro-emblem" aria-hidden="true">
+      <svg class="intro-orbit" viewBox="0 0 560 560" fill="none">
+        <circle cx="280" cy="280" r="274" pathLength="1"></circle>
+        <circle cx="280" cy="280" r="262" pathLength="1"></circle>
+      </svg>
+      <div class="intro-logo" set:html={logo}></div>
+      <div class="intro-shine"></div>
+    </div>
+    <div class="intro-copy">
+      <span class="intro-rule" aria-hidden="true"></span>
+      <h2 id="welcome-title">{SITE}</h2>
+      <p>من السؤال إلى موضع الجواب</p>
+    </div>
+  </div>
+  <div class="intro-progress" aria-hidden="true"></div>
+</dialog>
+
+<!-- Inline so the dialog opens before the page paints; no JS means no overlay. -->
+<script is:inline set:html={bootstrap}></script>
+
+<style>
+  #welcome-intro {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    color: #f7c45e;
+    background: radial-gradient(ellipse at 50% 42%, #104f58 0%, #063440 42%, #021e29 100%);
+  }
+  #welcome-intro[open] {
+    display: grid;
+    place-items: center;
+    animation: intro-exit 550ms 2650ms cubic-bezier(.4, 0, .2, 1) both;
+  }
+  #welcome-intro::backdrop { background: transparent; }
+  .intro-frame {
+    position: absolute;
+    inset: 24px;
+    border: 1px solid #f7c45e20;
+    pointer-events: none;
+  }
+  .intro-frame::before,
+  .intro-frame::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border: solid #f7c45e88;
+    border-width: 1px 0;
+    margin-inline: 28%;
+    transform: scaleX(.2);
+    animation: intro-frame 1600ms ease-out forwards;
+  }
+  .intro-frame::after {
+    border-width: 0 1px;
+    margin: 24% 0;
+    transform: scaleY(.2);
+  }
+  .intro-top {
+    position: absolute;
+    top: max(54px, env(safe-area-inset-top));
+    font-size: 12px;
+    color: #e2cfaa;
+    animation: intro-copy 850ms 200ms both;
+  }
+  .intro-center { text-align: center; padding: 80px 24px; }
+  .intro-emblem {
+    position: relative;
+    width: clamp(220px, 34vmin, 330px);
+    aspect-ratio: 1;
+    margin: 0 auto;
+    animation: intro-emblem 2000ms cubic-bezier(.16, 1, .3, 1) both;
+  }
+  .intro-emblem::before {
+    content: '';
+    position: absolute;
+    inset: -25%;
+    border-radius: 50%;
+    background: radial-gradient(circle, #f7c45e14, transparent 68%);
+    animation: intro-glow 2400ms ease-in-out both;
+  }
+  .intro-orbit { position: absolute; inset: -6%; width: 112%; height: 112%; }
+  .intro-orbit circle {
+    stroke: #f7c45e66;
+    stroke-width: .8;
+    stroke-dasharray: 1;
+    transform-origin: center;
+    transform: rotate(-90deg);
+    animation: intro-draw 1400ms 100ms cubic-bezier(.4, 0, .2, 1) both;
+  }
+  .intro-orbit circle + circle {
+    stroke: #f7c45e26;
+    transform: rotate(90deg);
+    animation-delay: 250ms;
+  }
+  .intro-logo { position: relative; }
+  .intro-logo :global(svg) { display: block; width: 100%; height: auto; }
+  .intro-logo :global(.logo-ground) { fill: transparent; }
+  .intro-logo :global(.logo-ornament) {
+    transform-origin: center;
+    animation: intro-ornament 1600ms cubic-bezier(.16, 1, .3, 1) both;
+  }
+  .intro-logo :global(.logo-calligraphy) {
+    animation: intro-ink 1400ms 350ms cubic-bezier(.22, 1, .36, 1) both;
+  }
+  .intro-shine {
+    position: absolute;
+    inset: 6%;
+    border-radius: 50%;
+    background: linear-gradient(115deg, transparent 35%, #fff0b845 49%, transparent 63%);
+    background-size: 300% 100%;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    animation: intro-shine 1100ms 1200ms both;
+  }
+  .intro-copy { animation: intro-copy 900ms 900ms both; }
+  .intro-rule {
+    display: block;
+    width: 44px;
+    height: 1px;
+    margin: 26px auto 20px;
+    background: linear-gradient(90deg, transparent, #f7c45e, transparent);
+  }
+  h2 { color: #fff2d4; font-size: clamp(26px, 4vw, 36px); font-weight: 500; }
+  .intro-copy p { margin-top: 10px; color: #c0cec8; font-size: 14px; }
+  button {
+    min-height: 44px;
+    padding: 0 14px;
+    border: 1px solid #f7c45e38;
+    border-radius: 999px;
+    color: #f1dbad;
+    cursor: pointer;
+    font: inherit;
+    transition: background 160ms;
+  }
+  button span { margin-inline-start: 12px; }
+  button:hover { background: #f7c45e15; }
+  button:focus-visible { outline: 2px solid #f7c45e; outline-offset: 4px; }
+  .intro-progress {
+    position: absolute;
+    bottom: 0;
+    inset-inline: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #f7c45e20, #f7c45e);
+    transform-origin: right;
+    animation: intro-progress 2650ms linear both;
+  }
+  @keyframes intro-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  @keyframes intro-frame { to { transform: scale(1); } }
+  @keyframes intro-emblem { from { transform: scale(.88); } to { transform: scale(1); } }
+  @keyframes intro-ornament {
+    from { opacity: 0; transform: rotate(-14deg) scale(.94); }
+    to { opacity: 1; transform: rotate(0) scale(1); }
+  }
+  @keyframes intro-ink {
+    from { opacity: 0; clip-path: inset(100% 0 0); transform: translateY(8px); }
+    to { opacity: 1; clip-path: inset(0); transform: translateY(0); }
+  }
+  @keyframes intro-copy {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes intro-shine {
+    from { background-position: 100% 0; opacity: 0; }
+    20%, 75% { opacity: 1; }
+    to { background-position: 0% 0; opacity: 0; }
+  }
+  @keyframes intro-glow { 0%, 100% { opacity: 0; } 55% { opacity: 1; } }
+  @keyframes intro-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes intro-exit { to { opacity: 0; transform: scale(1.035); } }
+  @media (max-width: 480px) {
+    .intro-frame { inset: 14px; }
+  }
+  @media (max-height: 560px) {
+    .intro-top { top: 30px; }
+    .intro-emblem { width: 150px; }
+    .intro-rule { margin: 12px auto; }
+  }
+  @media print, (prefers-reduced-motion: reduce) {
+    #welcome-intro[open] { display: none; }
+  }
+</style>

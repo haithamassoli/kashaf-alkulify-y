@@ -1,5 +1,7 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config'
+import { createHash } from 'node:crypto'
+import { readFileSync } from 'node:fs'
 import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
@@ -42,6 +44,11 @@ export default defineConfig({
         'upgrade-insecure-requests',
       ],
       scriptDirective: {
+        // The first-visit bootstrap runs before paint; authorize only its exact contents.
+        hashes: [{
+          hash: `sha256-${createHash('sha256').update(readFileSync(new URL('./src/lib/welcome-intro.js', import.meta.url))).digest('base64')}`,
+          kind: 'element',
+        }],
         resources: [
           { resource: "'self'", kind: 'element' },
           { resource: 'https://www.youtube.com', kind: 'element' },
