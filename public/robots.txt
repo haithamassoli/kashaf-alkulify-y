@@ -5,4 +5,6 @@ Allow: /
 Disallow: /?q=
 Disallow: /*?q=
 
+# For LLMs: https://alkulify.assoli.site/llms.txt — every lesson and article also has a .md twin.
+
 Sitemap: https://alkulify.assoli.site/sitemap-index.xml

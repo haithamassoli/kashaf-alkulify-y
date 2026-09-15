@@ -15,6 +15,8 @@ interface Props {
   type?: 'website' | 'video.other'
   /** JSON-LD for this page; rendered in <head> so it can't land before the doctype. */
   schema?: Record<string, unknown>[]
+  /** Root-relative path of this page's Markdown twin, for LLMs and agents. */
+  markdown?: string
 }
 
 const {
@@ -26,6 +28,7 @@ const {
   image = '/og.png',
   type = 'website',
   schema = [],
+  markdown,
 } = Astro.props
 
 // Simple Icons paths (24×24, filled).
@@ -104,6 +107,7 @@ const jsonLd = (data: Record<string, unknown>) => JSON.stringify(data).replaceAl
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    {markdown && <link rel="alternate" type="text/markdown" href={markdown} />}
     {
       schema.map((data) => (
         <script type="application/ld+json" is:inline set:html={jsonLd(data)}></script>
@@ -390,5 +394,6 @@ const jsonLd = (data: Record<string, unknown>) => JSON.stringify(data).replaceAl
 
     </script>
     <script>import '../lib/analytics'</script>
+    <script>import '../lib/webmcp'</script>
   </body>
 </html>

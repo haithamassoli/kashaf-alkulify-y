@@ -56,6 +56,7 @@ const crumbs = breadcrumb([[article.title, `/a/${article.id}/`]])
   title={article.title}
   description={description || undefined}
   schema={[articleSchema, crumbs]}
+  markdown={`/a/${article.id}.md`}
 >
   <article class="pt-8">
     {/* Same row as a lesson: tags lead, the actions sit at the far end. items-center,
